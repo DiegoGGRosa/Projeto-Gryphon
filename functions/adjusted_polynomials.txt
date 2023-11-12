@@ -1,0 +1,65 @@
+REAR:
+
+y = p1*z^10 + p2*z^9 +
+      p3*z^8 + p4*z^7 +
+      p5*z^6 + p6*z^5 +
+      p7*z^4 + p8*z^3 +
+      p9*z^2 + p10*z +
+      p11 
+
+where z is centered
+and scaled:
+
+z = (x-mu)/sigma
+mu = 25.363
+sigma = 19.74
+
+Coefficients:
+  p1 = -0.85073
+  p2 = 1.9995
+  p3 = 1.563
+  p4 = -7.3849
+  p5 = 2.9688
+  p6 = 7.9966
+  p7 = -7.5192
+  p8 = -1.9578
+  p9 = 4.7125
+  p10 = 0.93739
+  p11 = 2.6807
+
+Norm of residuals = 
+     0.37947
+
+
+
+FRONTAL: 
+
+y = p1*z^10 + p2*z^9 +
+      p3*z^8 + p4*z^7 +
+      p5*z^6 + p6*z^5 +
+      p7*z^4 + p8*z^3 +
+      p9*z^2 + p10*z +
+      p11 
+
+where z is centered
+and scaled:
+
+z = (x-mu)/sigma
+mu = 25.363
+sigma = 19.74
+
+Coefficients:
+  p1 = -0.85073
+  p2 = 1.9995
+  p3 = 1.563
+  p4 = -7.3849
+  p5 = 2.9688
+  p6 = 7.9966
+  p7 = -7.5192
+  p8 = -1.9578
+  p9 = 4.7125
+  p10 = 0.93739
+  p11 = 2.6807
+
+Norm of residuals = 
+     0.37947
