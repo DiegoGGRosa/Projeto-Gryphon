@@ -1,3 +1,5 @@
+Estes valores são usados pelo sistema robótico para garantir a subida de rampas ou mesmo degraus usando controle de torque. OS valores aqui apresentados são resultado de um algoritmo de otimização multi-objetivo capaz de, dadas informações do robô, calcular os torques necessários nas rodas para diferentes terrenos usando apenas dados inerciais como feedback. 
+
 REAR:
 
 y = p1*z^10 + p2*z^9 +
