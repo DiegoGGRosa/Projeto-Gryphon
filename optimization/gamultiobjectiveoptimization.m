@@ -9,6 +9,7 @@ clear all
 close all
 format short
 
+% declare pitch angle 
 alfa = 0; % angle (degree)
 
 acm = 4; % aceleração máxima - experimentalmente obtido
