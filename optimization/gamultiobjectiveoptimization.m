@@ -28,19 +28,20 @@ W = 9.81*m; % weight of the robot (N)
 w = W/2; % weight of a half robot (N) % mass calculation
 ep = 0.1*l; % minimal stability margin
 
-bep = atan((l/2-ep)*cos(alfa)/h); % beta epsilon
+% algorithm equations
+bep = atan((l/2-ep)*cos(alfa)/h); % stability angle
 la = l/2; % 0.5*l*cos(alfa);
 lb = la;
+
+% auxiliar variables (maintain commented when running the algorithm)
 % I1 = -2*cos(alfa)*sin(alfa)/(r*l*(cos(alfa)*cos(alfa)-sin(alfa)*sin(alfa)));
 % I2 = -2*h*(sin(alfa)*sin(alfa))/(r*l*(cos(alfa)*cos(alfa)-sin(alfa)*sin(alfa)));
 % I3 = I1;
 % I4 = I2;
-
-%FNB = 0.5*w*cos(alfa)-m*ac*(h/l)-w*sin(alfa)*(h/l)
-%FNA = 0.5*w*cos(alfa)+m*ac*(h/l)+w*sin(alfa)*(h/l)
+% FNB = 0.5*w*cos(alfa)-m*ac*(h/l)-w*sin(alfa)*(h/l)
+% FNA = 0.5*w*cos(alfa)+m*ac*(h/l)+w*sin(alfa)*(h/l)
 
 % minimize is the standard optimization in MATLAB:
-
 f = @(TA,TB,ac) [ abs((TA/r)*cos(alfa)+(TB/r)*cos(alfa)-(0.5*w*cos(alfa)+m*ac*(h/l)+w*sin(alfa)*(h/l))*sin(alfa)-(0.5*w*cos(alfa)-m*ac*(h/l)-w*sin(alfa)*(h/l))*sin(alfa)-m*ac*cos(alfa))+abs((TA/r)*sin(alfa)+(TB/r)*sin(alfa)+(0.5*w*cos(alfa)+m*ac*(h/l)+w*sin(alfa)*(h/l))*cos(alfa)+(0.5*w*cos(alfa)-m*ac*(h/l)-w*sin(alfa)*(h/l))*cos(alfa)+m*ac*sin(alfa)-w)+abs((TA/r)*h+(TB/r)*h-(0.5*w*cos(alfa)+m*ac*(h/l)+w*sin(alfa)*(h/l))*la+(0.5*w*cos(alfa)-m*ac*(h/l)-w*sin(alfa)*(h/l))*lb) ; abs(bep-(atan((m*ac*cos(alfa))/(w+m*ac*cos(alfa)*tan(alfa)))))+abs((TA/r)/(0.5*w*cos(alfa)+m*ac*(h/l)+w*sin(alfa)*(h/l))-ms)+abs((TB/r)/(0.5*w*cos(alfa)-m*ac*(h/l)-w*sin(alfa)*(h/l))-ms)]
 
 % obj1:
