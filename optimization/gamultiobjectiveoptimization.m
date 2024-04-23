@@ -12,10 +12,11 @@ format short
 % declare pitch angle 
 alfa = 0; % angle (degree)
 
-acm = 4; % aceleração máxima - experimentalmente obtido
+% declare vehicle and terrain interaction variables
+acm = 4; % maximum linear acceleration (for PUMA+, experimentally obtained)
 ms = 0.5; % static friction coefficient
-md = 0.3; % dynamical friction coefficient (not used)
-tqmax = 7.21; % torque maximo na saida da caixa de reducao (Nm) - 7.5 Nm == 52A, so motor == 1.2oz.in/A == 1.31345Nm para 155A == 22.3286Nm na caixa(1:17)
+md = 0.3; % dynamical friction coefficient (not used in this code version)
+tqmax = 7.21; % maximum mechanical torque after the reduction gears (Nm) -> for PUMA+ -> 7.5 Nm == 52A, so motor == 1.2oz.in/A == 1.31345Nm para 155A == 22.3286Nm na caixa(1:17)
 
 tf = 2; % tempo de simulação
 vi = 0; % velocidade inicial
