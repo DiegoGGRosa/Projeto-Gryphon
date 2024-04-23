@@ -1,4 +1,5 @@
 % torque optimization - genetic algorithm - PUMA+
+% by Diego Rosa - Pontifical Catholic University of Rio de Janeiro
 
 tic
 clc
