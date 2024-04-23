@@ -2,6 +2,8 @@
 % by Diego Rosa - Pontifical Catholic University of Rio de Janeiro
 
 tic % start algorithm time count
+
+% prepare matlab environment
 clc
 clear all
 close all
