@@ -1,7 +1,7 @@
 % torque optimization - genetic algorithm - PUMA+
 % by Diego Rosa - Pontifical Catholic University of Rio de Janeiro
 
-tic
+tic % start algorithm time count
 clc
 clear all
 close all
@@ -194,4 +194,4 @@ coefA = FfA./FNA
 Ttras_T_diant_acel = x
 e_obj1equilibroio_e_obj2estabilidade = fval
 
-toc
+toc % finish algorithm time count
