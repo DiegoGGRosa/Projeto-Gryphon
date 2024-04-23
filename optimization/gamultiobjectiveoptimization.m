@@ -60,6 +60,7 @@ options = optimoptions(options,'PlotFcn',{@gaplotpareto});
 [x,fval,exitflag,output] = gamultiobj(fitness,3,[],[],[],[],LB,UB,options);
 rng default
 
+% calculation outputs
 Ff = x./r;
 display(x);
 display(fval);
@@ -84,17 +85,16 @@ bminusb = (1/pi)*180*fval(:,1);
 bmb = bminusb;
 bep2 = (1/pi)*180*bep;
 
-% Part 2
+% Part 2 (uncomment by parts for auxiliar or extra analysis related to PUMA+ and Botkits robot)
 
 % f2 = @(TA2,TB2) [abs(bep-atan(m*(-(1/(m*sin(alfa)))*(TA2*(1/r)*sin(alfa)+TB2*(1/r)*sin(alfa)+((w*cos(alfa)-2*cos(alfa)*sin(alfa)*(1/lb)*(TA2*(1/r)+TB2*(1/r)-2*((TA2*(1/r)+TB2*(1/r))*h*(1/lb))*(sin(alfa)*sin(alfa)-cos(alfa)*cos(alfa))))*lb/((la+lb)*(cos(alfa)*cos(alfa)-sin(alfa)*sin(alfa))))*cos(alfa)+(((w*cos(alfa)-2*cos(alfa)*sin(alfa)*(1/lb)*(TA2*(1/r)+TB2*(1/r)-2*((TA2*(1/r)+TB2*(1/r))*h*(1/lb))*(sin(alfa)*sin(alfa)-cos(alfa)*cos(alfa))))*lb/((la+lb)*(cos(alfa)*cos(alfa)-sin(alfa)*sin(alfa))))*la/lb - TA2*(1/r)*h/lb - TB2*(1/r)*h/lb)*cos(alfa)-w))*cos(alfa))./(w+(((1-cos(alfa)*cos(alfa))*m*m*((-(1/(m*sin(alfa)))*(TA2*(1/r)*sin(alfa)+TB2*(1/r)*sin(alfa)+((w*cos(alfa)-2*cos(alfa)*sin(alfa)*(1/lb)*(TA2*(1/r)+TB2*(1/r)-2*((TA2*(1/r)+TB2*(1/r))*h*(1/lb))*(sin(alfa)*sin(alfa)-cos(alfa)*cos(alfa))))*lb/((la+lb)*(cos(alfa)*cos(alfa)-sin(alfa)*sin(alfa))))*cos(alfa)+(((w*cos(alfa)-2*cos(alfa)*sin(alfa)*(1/lb)*(TA2*(1/r)+TB2*(1/r)-2*((TA2*(1/r)+TB2*(1/r))*h*(1/lb))*(sin(alfa)*sin(alfa)-cos(alfa)*cos(alfa))))*lb/((la+lb)*(cos(alfa)*cos(alfa)-sin(alfa)*sin(alfa))))*la/lb - TA2*(1/r)*h/lb - TB2*(1/r)*h/lb)*cos(alfa)-w))).^2).^0.5)))  ,  abs((TA2/r)/((w*cos(alfa)-2*cos(alfa)*sin(alfa)*(1/lb)*(TA2*(1/r)+TB2*(1/r)-2*((TA2*(1/r)+TB2*(1/r))*h*(1/lb))*(sin(alfa)*sin(alfa)-cos(alfa)*cos(alfa))))*lb/((la+lb)*(cos(alfa)*cos(alfa)-sin(alfa)*sin(alfa))))-md)+abs((TB2/r)/(((w*cos(alfa)-2*cos(alfa)*sin(alfa)*(1/lb)*(TA2*(1/r)+TB2*(1/r)-2*((TA2*(1/r)+TB2*(1/r))*h*(1/lb))*(sin(alfa)*sin(alfa)-cos(alfa)*cos(alfa))))*lb/((la+lb)*(cos(alfa)*cos(alfa)-sin(alfa)*sin(alfa))))*la/lb - TA2*(1/r)*h/lb - TB2*(1/r)*h/lb)-md)  ];
-% 
-% fitness2 = @(ind2) f2(ind2(1),ind2(2)); % indices 1,2 = torques TA,TB
+% fitness2 = @(ind2) f2(ind2(1),ind2(2)); % indices 1,2 = torques TA,TB - acceleration not used as Botkits is not able to achieve high accelerations
 
 % LB = [0; 0];
-% UB = [5*0.88; 5*0.88]; % stall torque = 0,88 Nm
+% UB = [5*0.88; 5*0.88]; % stall torque = 0,88 Nm % maximum Botkits torque
 % options = gaoptimset('display','off', 'generations', 10000, 'StallGenLimit', 100000, 'PopulationSize', 1000); % 'off', 'iter'
 % [x2, fval2] = gamultiobj(fitness2, 2, [], [], [], [], LB, UB, [], options);
-% 
+
 % display(x2);
 % display(fval2);
 
@@ -108,15 +108,15 @@ bep2 = (1/pi)*180*bep;
 % ax2 = a2*cos(alfa);
 % ay2 = a2*sin(alfa);
 
-Pmax = 12; % maximum power (P = EI) [W]
+Pmax = 12; % maximum power (P = EI) [W] % can be set to avoid damages in the physical robot
 % obs.: this maximum power can reaches 80 W for a few instants
 
 [ac,aci] = max(acel);
 Ia = 5.68*TqA(aci);
 Ib = 5.68*TqB(aci);
 
-% passo 1 = máxima aceleração sem perder estabilidade
-% passo 2 = reduzir torque para aumentar tensão (potência limitada)
+% passo 1 = maximum acceleration without losing stability
+% passo 2 = reduce torque to improve voltage, considering power limitation
 % [ac2,aci2] = min(a2);
 % Ia2 = 5.68*TqA2(aci2);
 % Ib2 = 5.68*TqB2(aci2);
@@ -124,6 +124,7 @@ Ib = 5.68*TqB(aci);
 Ea = Pmax/(max(Ia,Ib));
 Eb = Ea;
 
+% velocity control based on torque analysis
 vmax = 1.76; % maximum velocity [m/s] (4rps == 16V)
 vf = 2*pi*r*0.25*Ea; % valor em m/s (1V == 0,25 rps)
 t = vf/ac;
@@ -171,6 +172,8 @@ t = vf/ac;
 % Vlow = 2*pi*r*0.25*Elow
 % % obs.: restriction related to wheel A (B is far of Pmax limitation)
 
+% general analysis for both algorithms
+
 if  Ia>50 || Ib>50
     display ('This movement is not possible to be achieved');    
 elseif ac*FNB(aci)<0
@@ -196,4 +199,4 @@ coefA = FfA./FNA
 Ttras_T_diant_acel = x
 e_obj1equilibroio_e_obj2estabilidade = fval
 
-toc % finish algorithm time count
+toc % finish algorithm time count -> remove images for better estimative of running time
