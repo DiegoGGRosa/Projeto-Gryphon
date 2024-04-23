@@ -43,21 +43,18 @@ lb = la;
 
 % minimize is the standard optimization in MATLAB:
 f = @(TA,TB,ac) [ abs((TA/r)*cos(alfa)+(TB/r)*cos(alfa)-(0.5*w*cos(alfa)+m*ac*(h/l)+w*sin(alfa)*(h/l))*sin(alfa)-(0.5*w*cos(alfa)-m*ac*(h/l)-w*sin(alfa)*(h/l))*sin(alfa)-m*ac*cos(alfa))+abs((TA/r)*sin(alfa)+(TB/r)*sin(alfa)+(0.5*w*cos(alfa)+m*ac*(h/l)+w*sin(alfa)*(h/l))*cos(alfa)+(0.5*w*cos(alfa)-m*ac*(h/l)-w*sin(alfa)*(h/l))*cos(alfa)+m*ac*sin(alfa)-w)+abs((TA/r)*h+(TB/r)*h-(0.5*w*cos(alfa)+m*ac*(h/l)+w*sin(alfa)*(h/l))*la+(0.5*w*cos(alfa)-m*ac*(h/l)-w*sin(alfa)*(h/l))*lb) ; abs(bep-(atan((m*ac*cos(alfa))/(w+m*ac*cos(alfa)*tan(alfa)))))+abs((TA/r)/(0.5*w*cos(alfa)+m*ac*(h/l)+w*sin(alfa)*(h/l))-ms)+abs((TB/r)/(0.5*w*cos(alfa)-m*ac*(h/l)-w*sin(alfa)*(h/l))-ms)]
-
-% obj1:
-% -ac
-% ou abs(bep-(atan((m*ac*cos(alfa))/(m*ac*cos(alfa)*tan(alfa)))))
-% ou soma eq1 eq2 eq3 abs((TA/r)*cos(alfa)+(TB/r)*cos(alfa)-FNA*sin(alfa)-FNB*sin(alfa)-m*acel*cos(alfa))+abs((TA/r)*sin(alfa)+(TB/r)*sin(alfa)+FNA*cos(alfa)+FNB*cos(alfa)+m*acel*sin(alfa)-w)+abs((TA/r)*h+(TB/r)*h-FNA*la+FNB*lb)
-
-% f = @(TA,TB,ac) [ abs((TA/r)/w*cos(alfa)+I1*TA+I2*TB+I3*TA+I4*TB-ms) + abs((TB/r)/w*cos(alfa)+I1*TA+I2*TB+I3*TA+I4*TB-TA/lb-TB/lb-ms)]
-fitness = @(ind) f(ind(1),ind(2),ind(3)); % indices = torque A, torque B, normal A, normal B, aceleração
+fitness = @(ind) f(ind(1),ind(2),ind(3)); % indices = torque A, torque B, acceleration
 
 LB = [0; 0; 0];
 UB = [tqmax; tqmax; acm]; % stall torque = 0,88 Nm; máxima aceleração = acm
+
+% auxiliar variables (maintain commented when running the algorithm)
 % Aeq = [(cos(alfa)/r)-2*I1*sin(alfa)-2*I3*sin(alfa)+sin(alfa)/lb , (cos(alfa)/r)- 2*I2*sin(alfa)-2*I4*sin(alfa)+sin(alfa)/lb ; (sin(alfa)/r)+2*I1*sin(alfa)+2*I3*sin(alfa)-cos(alfa)/lb , (sin(alfa)/r)+2*I2*sin(alfa)+2*I4*sin(alfa)+cos(alfa)/lb]; 
 % beq = [2*w*cos(alfa)*sin(alfa)+m*ac*cos(alfa); -2*w*cos(alfa)*cos(alfa)+w-m*ac*sin(alfa)];
 
-options = gaoptimset('display','off', 'generations', 100000, 'StallGenLimit', 10000000, 'PopulationSize', 1000000);
+options = gaoptimset('display','off', 'generations', 100000, 'StallGenLimit', 10000000, 'PopulationSize', 1000000); % edit according to the desired parameters 
+
+% do not edit the following options
 options = optimoptions('gamultiobj','InitialPopulationRange',[LB';UB']);
 options = optimoptions(options,'PlotFcn',{@gaplotpareto});
 [x,fval,exitflag,output] = gamultiobj(fitness,3,[],[],[],[],LB,UB,options);
