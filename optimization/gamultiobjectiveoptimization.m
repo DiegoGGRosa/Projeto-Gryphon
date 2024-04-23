@@ -12,22 +12,22 @@ format short
 % declare pitch angle 
 alfa = 0; % angle (degree)
 
-% declare vehicle and terrain interaction variables
+% declare vehicle, simulation, and terrain interaction variables
 acm = 4; % maximum linear acceleration (for PUMA+, experimentally obtained)
 ms = 0.5; % static friction coefficient
 md = 0.3; % dynamical friction coefficient (not used in this code version)
 tqmax = 7.21; % maximum mechanical torque after the reduction gears (Nm) -> for PUMA+ -> 7.5 Nm == 52A, so motor == 1.2oz.in/A == 1.31345Nm para 155A == 22.3286Nm na caixa(1:17)
-
-tf = 2; % tempo de simulação
-vi = 0; % velocidade inicial
-alfa = alfa*pi/180; % angle (rad)
+tf = 2; % time of simulation
+vi = 0; % initial velocity (recommended = zero)
+alfa = alfa*pi/180; % angle (rad) % angle transformation
 r = 0.1016; % wheel radius (m)
 l = 0.31; % lenght - entre eixos (m)
 h = 0.1016; % height of the robot GC (m)
 m = 19.55; % mass of the robot (Kg)
 W = 9.81*m; % weight of the robot (N)
-w = W/2; % weight of a half robot (N) 
-ep = 0.1*l; % epsilon
+w = W/2; % weight of a half robot (N) % mass calculation
+ep = 0.1*l; % minimal stability margin
+
 bep = atan((l/2-ep)*cos(alfa)/h); % beta epsilon
 la = l/2; % 0.5*l*cos(alfa);
 lb = la;
